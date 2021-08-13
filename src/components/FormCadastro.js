@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Cadastro from './Cadastro'
 
 const FormCadastro = (props) => {
@@ -11,6 +11,18 @@ const FormCadastro = (props) => {
     }
 
     let [values, setValues] = useState(camposIniciaisDeValores)
+
+    useEffect( () => {
+        if(props.idAtual == ''){
+            setValues({
+                ...camposIniciaisDeValores,
+            })
+        } else {
+            setValues({
+                ...props.dadosPaciente[props.idAtual]
+            })
+        }
+    }, [props.idAtual, props.dadosPaciente])
 
     const manipuladorInputChange = e => {
         let { name, value } = e.target
@@ -74,7 +86,7 @@ const FormCadastro = (props) => {
                 </div>
 
                 <div className="d-grid gap-2 ">
-                    <input type="submit" value="Cadastrar" className="btn btn-primary" />
+                    <input type="submit" value={ props.idAtual == '' ? 'Cadastrar' : 'Atualizar'} className="btn btn-primary" />
                 </div>
             </div>
         </form>
